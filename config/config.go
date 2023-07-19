@@ -17,9 +17,10 @@ const configFilename = "config.yaml"
 const GJSON_KEY_OPENAIKEY = `OpenAIKey`
 
 type Config struct {
-	DBName    string       `yaml:"DBName"`
-	GinPort   string       `yaml:"GinPort"`
-	InitUsers []model.User `yaml:"InitUsers"`
+	DBName       string       `yaml:"DBName"`
+	GinPort      string       `yaml:"GinPort"`
+	InitUsers    []model.User `yaml:"InitUsers"`
+	ModelFitlers []string     `yaml:"ModelFilters"`
 
 	openAIKeys []*string
 	rr         *roundrobin.RoundRobin[string]

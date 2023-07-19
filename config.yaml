@@ -11,3 +11,6 @@ InitUsers:
     Token: bbcd
   - Username: user111
     Token: ddcd
+
+ModelFilters:
+  - gpt-3.5-turbo

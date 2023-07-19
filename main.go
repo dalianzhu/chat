@@ -27,7 +27,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	proxy := handler.NewProxyHandler(c.RoundRobinKey, sqliteRepo.User)
+	proxy := handler.NewProxyHandler(c.RoundRobinKey, sqliteRepo.User, c.ModelFitlers)
 
 	http.HandleFunc("/", proxy.Proxy)
 	http.HandleFunc("/healthz", healthz)

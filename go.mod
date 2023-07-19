@@ -8,6 +8,7 @@ require (
 	github.com/thegeekyasian/round-robin-go v0.0.0-20230209221520-ee0e2ad436ff
 	github.com/tidwall/gjson v1.14.4
 	github.com/ysmood/gop v0.0.3
+	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
 	gorm.io/gorm v1.25.1
 	sigs.k8s.io/yaml v1.3.0
 )
