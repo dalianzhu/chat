@@ -74,20 +74,24 @@ func (p *ProxyHandler) hijackHttp(w http.ResponseWriter, r *http.Request, fn fun
 	// 读取原始请求中的 Body 数据
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		log.Printf("Error reading request body:%v\n", err)
 		http.Error(w, "Error reading request body", http.StatusInternalServerError)
 		return
 	}
 	var bodyMap map[string]interface{}
 	err = json.Unmarshal(body, &bodyMap)
 	if err != nil {
+		log.Printf("unmarshal error:%v\n", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	modelName, ok := bodyMap["model"].(string)
+	log.Printf("recv model:%v %v", modelName, p.modelFilters)
 	if ok {
 		if len(p.modelFilters) != 0 && !slices.Contains(p.modelFilters, modelName) {
+			log.Printf("model name not in allowed list:%v\n", p.modelFilters)
 			http.Error(w, fmt.Sprintf("model name not in allowed list:%v", p.modelFilters),
-				http.StatusUnauthorized)
+				http.StatusForbidden)
 			return
 		}
 	}
@@ -97,6 +101,10 @@ func (p *ProxyHandler) hijackHttp(w http.ResponseWriter, r *http.Request, fn fun
 		http.Error(w, "Error creating new request", http.StatusInternalServerError)
 		return
 	}
+	for key, body := range r.Header {
+		newReq.Header.Add(key, body[0])
+	}
+	log.Printf("header:%v body:%s\n", newReq.Header, body)
 	fn(w, newReq)
 }
 

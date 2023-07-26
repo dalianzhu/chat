@@ -20,7 +20,7 @@ type Config struct {
 	DBName       string       `yaml:"DBName"`
 	GinPort      string       `yaml:"GinPort"`
 	InitUsers    []model.User `yaml:"InitUsers"`
-	ModelFitlers []string     `yaml:"ModelFilters"`
+	ModelFilters []string     `yaml:"ModelFilters"`
 
 	openAIKeys []*string
 	rr         *roundrobin.RoundRobin[string]
