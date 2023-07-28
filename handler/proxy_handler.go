@@ -86,7 +86,6 @@ func (p *ProxyHandler) hijackHttp(w http.ResponseWriter, r *http.Request, fn fun
 		return
 	}
 	modelName, ok := bodyMap["model"].(string)
-	log.Printf("recv model:%v %v", modelName, p.modelFilters)
 	if ok {
 		if len(p.modelFilters) != 0 && !slices.Contains(p.modelFilters, modelName) {
 			log.Printf("model name not in allowed list:%v\n", p.modelFilters)
@@ -101,10 +100,10 @@ func (p *ProxyHandler) hijackHttp(w http.ResponseWriter, r *http.Request, fn fun
 		http.Error(w, "Error creating new request", http.StatusInternalServerError)
 		return
 	}
+	newReq = newReq.WithContext(r.Context())
 	for key, body := range r.Header {
 		newReq.Header.Add(key, body[0])
 	}
-	log.Printf("header:%v body:%s\n", newReq.Header, body)
 	fn(w, newReq)
 }
 
